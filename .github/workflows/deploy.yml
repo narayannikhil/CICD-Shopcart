@@ -1,0 +1,37 @@
+    name: "Deploy Aws Ec2"
+
+    #trigger the workflow from the git hub ui
+    on: workflow_dispatch       
+        
+    jobs:
+        deploy:
+            runs-on: self-hosted  #this means we r nt using githubs ubuntu but out own
+            
+            # setting up node js  
+            steps:
+                - name: "setup nodejs"
+                  uses: actions/setup-node@v6
+                  with:
+                    node-version: ''
+            
+            #checking out the code
+            #if we were deploying anything on ec2 without pipeline then we needed to manually install node checkout code etc
+            #this will automate the process        
+                - name: "checkout code"
+                  uses: actions/checkout@v2
+
+                - name: "Install dependencies"
+                  run:  npm install
+                
+                - name: "Install pm2 Globally"
+                  run:  npm install pm2 -g
+                  
+                - name: "Run the tests"
+                  run: npm tests
+                  
+                - name: "Deploy to Aws"  
+                  run: pm2 start src/index.js
+                  
+              
+
+
