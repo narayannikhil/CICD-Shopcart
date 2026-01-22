@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const responseTime = require('response-time');
+const cors = require('cors');
 
 const {PORT, DB_ALTER, DB_FORCE, NODE_ENV} = require('./config/server_config');
 const ApiRouter = require('./routes/api_router');
@@ -10,6 +11,9 @@ const db = require('./config/db_config');
 const { syncDbInOrder } = require('./models');
 
 const app = express();
+app.use(cors({
+    origin: 'http://localhost:5174'
+}));
 
 // app.use(responseTime(function f(req, res, time) {
 //     console.log("Time elapsed = ", time);
@@ -23,6 +27,12 @@ app.use(bodyParser.text());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/api', ApiRouter); // if any req comes with url starting with /api
+
+app.get('/ping', (req, res) => {
+    return res.json({
+        message: 'pong....'
+    })
+});
 
 app.listen(PORT, async () => {
     console.log(`Server for Shopcart is Up ${PORT}`);
