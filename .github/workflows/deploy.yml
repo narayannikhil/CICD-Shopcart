@@ -24,7 +24,7 @@
                   run: npm install
                   
                 - name: "Run the tests"
-                  run: npm tests
+                  run: npm test
                   
                 - name: "Deploy to Aws"  
                   run: pm2 restart server 
