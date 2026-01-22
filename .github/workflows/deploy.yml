@@ -20,18 +20,16 @@
                 - name: "checkout code"
                   uses: actions/checkout@v2
 
-                - name: "Install dependencies"
-                  run:  npm install
+                  
                 
-                - name: "Install pm2 Globally"
-                  run:  npm install pm2 -g
+                
                   
                 - name: "Run the tests"
                   run: npm tests
                   
                 - name: "Deploy to Aws"  
                   run: pm2 start src/index.js
-                  
+
               
 
 
